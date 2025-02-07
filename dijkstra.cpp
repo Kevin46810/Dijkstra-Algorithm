@@ -339,12 +339,14 @@ int numVertices (vector<DijkstraTable> &table) {
 
 	map<string, bool> duplicate;
 
+	//Sets up map that checks for duplicates
 	for (int i = 0; i < table.size(); i++) {
 		duplicate[table[i].vertex] = false;
 		duplicate[table[i].prev] = false;
 	}
 	int count = 0;
 
+	//Keeps track of the number of unique vertices
 	for (int i = 0; i < table.size(); i++) {
 		if (!duplicate[table[i].vertex]) {
 			duplicate[table[i].vertex] = true;
@@ -362,12 +364,14 @@ int numVertices (vector<DijkstraTable> &table) {
 vector<string> listOfVertices (vector<DijkstraTable> &table, vector<string> &list) {
 
 	map<string, bool> duplicate;
-
+	
+	//Sets up the map keeping track of duplicates
 	for (int i = 0; i < table.size(); i++) {
 		duplicate[table[i].vertex] = false;
 		duplicate[table[i].prev] = false;
 	}
 
+	//Only accepts unique vertices into the list
 	for (int i = 0; i < table.size(); i++) {
 		if (!duplicate[table[i].vertex]) {
 			duplicate[table[i].vertex] = true;
@@ -378,7 +382,7 @@ vector<string> listOfVertices (vector<DijkstraTable> &table, vector<string> &lis
 			list.push_back(table[i].prev);
 		}
 	}
-	sort (list.begin(), list.end());
+	sort (list.begin(), list.end()); //Sorts the vertices to be printed in numerical/alphabetical order
 
 	return list;
 }
@@ -387,13 +391,14 @@ int findIndex (string &vertex, string &prev, vector<DijkstraTable> &table) {
 
 	int index = -1;
 
+	//Search for index on the struct vector
 	for (int i = 0; i < table.size(); i++) {
 		if (table[i].vertex == vertex && table[i].prev == prev) {
 			index = i;
 			break;
 		}
 	}
-	return index;
+	return index; //Returns -1 if not found
 }
 
 void finishIt (vector<DijkstraTable> &table, map<string, bool> &marked, vector<string> &vertexList, int &i) {
@@ -420,12 +425,13 @@ void finishIt (vector<DijkstraTable> &table, map<string, bool> &marked, vector<s
 
 			marked[table[minIndex].vertex] = true;
 
-			cout << setw(WIDTH) << table[minIndex].vertex << setw(WIDTH) << table[minIndex].weight << setw(WIDTH) << table[minIndex].prev << endl;
+			cout << setw(WIDTH) << table[minIndex].vertex << setw(WIDTH) << table[minIndex].weight << setw(WIDTH) << table[minIndex].prev << endl; //Print results
 		}
 	}
 
 	sort (vertexList.begin(), vertexList.end()); 
 
+	//Does not print undefined weight of a vertex detached from the graph
 	for (int j = 0; j < vertexList.size(); j++) 
 		if (!marked[vertexList[j]]) 
 			cout << setw(WIDTH) << vertexList[j] << setw(WIDTH) << "NOT ON PATH" << setw(WIDTH) << "N/A" << endl;
@@ -463,6 +469,7 @@ bool isCycle (Graph<string> &graph, vector<string> &cycleVs, string &start, stri
 }
 
 bool containsNonNumber (string &s) {
+	//Returns false if no non-digit is found
 
 	for (int i = 0; i < s.length(); i++)
 		if (!isdigit(s[i]))
